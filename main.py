@@ -15,7 +15,7 @@ from utils import (
     scRNASeqDataset, 
     evaluate
 )
-from scTGCL import ContrastiveTransformerAutoencoder, ContrastiveLoss
+from scTGCL import ContrastiveLoss, scTGCL
 
 
 # ============================================================================
@@ -112,7 +112,7 @@ def train_model(model, train_loader, test_loader, config, device):
     best_labels = None
     
     print("\n" + "="*70)
-    print("Starting Training with Contrastive Learning...")
+    print("Starting Training...")
     print("="*70)
     print(f"Loss Weights: Recon={lambda_recon}, Impute={lambda_impute}, Contrast={lambda_contrast}")
     
@@ -229,7 +229,7 @@ def main():
     print(f"\nLoading dataset: {data_path}")
     data = sc.read_h5ad(data_path)
     X_all = data.X
-    y_all = data.obs.values[:,0]
+    y_all = data.obs['cell_type'].values
     
     print(f"Data shape: {X_all.shape}, Labels shape: {y_all.shape}")
     print(f"Cell type distribution:\n{pd.DataFrame(y_all).value_counts()}")
@@ -251,7 +251,7 @@ def main():
     test_loader = DataLoader(test_dataset, batch_size=config['batch_size'], shuffle=False)
     
     # Initialize model
-    model = ContrastiveTransformerAutoencoder(
+    model = scTGCL(
         input_dim=X_all.shape[1],
         embed_dim=config['embed_dim'],
         num_heads=config['num_heads'],

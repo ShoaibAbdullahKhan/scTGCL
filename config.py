@@ -1,3 +1,4 @@
+import random
 def get_config():
     """
     Get default configuration for scTGCL model
@@ -27,9 +28,7 @@ def get_config():
         'weight_decay': 1e-3,
         'epochs': 100,
         'batch_size': 128,
-        'seed': 35,
-        
-        # Paths
+        'seed': 42,
         'save_dir': 'results',
     }
     

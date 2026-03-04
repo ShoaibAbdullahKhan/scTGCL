@@ -17,17 +17,13 @@ def preprocess_scrna(expr_path, label_path, output_h5, n_hvg=2500):
     # ----------------------------
     # Load expression matrix
     # ----------------------------
-    df = pd.read_csv(expr_path, index_col=0)
+    df = pd.read_csv(expr_path, index_col=0).T
     print(f"Expression shape: {df.shape}")
 
     # ----------------------------
     # Load labels
     # ----------------------------
     labels_df = pd.read_csv(label_path, index_col=0)
-
-    # # Align labels with cells
-    # labels_df = labels_df.loc[df.index]
-    # print(f"Labels shape: {labels_df.shape}")
 
     # ----------------------------
     # Create AnnData

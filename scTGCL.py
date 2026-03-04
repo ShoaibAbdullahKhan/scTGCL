@@ -144,12 +144,12 @@ class EnhancedMultiHeadAttention(nn.Module):
 # Main Model
 # ============================================================================
 
-class ContrastiveTransformerAutoencoder(nn.Module):
+class scTGCL(nn.Module):
     """Transformer-based Autoencoder with Contrastive Learning"""
     
     def __init__(self, input_dim, embed_dim=512, num_heads=8, latent_dim=128, 
                  dropout=0.1, mask_prob=0.15, attention_mask_prob=0.2):
-        super(ContrastiveTransformerAutoencoder, self).__init__()
+        super(scTGCL, self).__init__()
         
         self.input_dim = input_dim
         self.embed_dim = embed_dim
