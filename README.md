@@ -1,6 +1,6 @@
 # scTGCL
 A Transformer-Based Graph Contrastive Learning Approach for Efficiently Clustering Single-Cell RNA-seq Data
-![Architecture](architecture.png)
+![Architecture](scTGCL.png)
 
 
 
@@ -19,7 +19,7 @@ The project relies on the following Python packages (minimum tested versions):
 - scikit-learn >= 0.24
 - scipy >= 1.6
 
-> Install with `pip install -r requirements.txt` (you can generate this file from the package list above).
+> Install with `pip install -r requirements.txt`.
 
 ---
 
