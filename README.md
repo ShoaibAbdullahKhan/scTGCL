@@ -44,7 +44,7 @@ The script will read the raw expression matrix, perform filtering and normalizat
 Once preprocessing is complete, run the main training script with hyperparameters of your choice. An example command with the default configuration is:
 
 ```bash
-python main.py --dataset .\data\pbmc.h5ad  --n_cluster 8  --embed_dim 512  --num_heads 8 --latent_dim 64  --dropout 0.3  --mask_prob 0.25  --attention_mask_prob 0.35 --lambda_recon 6 --lambda_impute 1 --lambda_contrast 0.8  --temperature 0.5 --lr 0.001 --weight_decay 1e-3 --epochs 100 --batch_size 128 --seed 42 --save_dir results
+python main.py --dataset .\data\pbmc.h5ad  --n_cluster 8 --batch_size 128 --save_dir results
 ```
 
 ---
