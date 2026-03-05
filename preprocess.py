@@ -17,7 +17,7 @@ def preprocess_scrna(expr_path, label_path, output_h5, n_hvg=2500):
     # ----------------------------
     # Load expression matrix
     # ----------------------------
-    df = pd.read_csv(expr_path, index_col=0).T
+    df = pd.read_csv(expr_path, index_col=0)
     print(f"Expression shape: {df.shape}")
 
     # ----------------------------
@@ -104,7 +104,7 @@ def parse_args():
     parser.add_argument(
         "--out",
         type=str,
-        required=True,
+        default='./data/preprocessed_data.h5ad',
         help="Output .h5ad file path",
     )
 
