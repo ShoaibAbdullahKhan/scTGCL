@@ -36,7 +36,7 @@ All of the processed datasets used for training and evaluation can be found at t
 Before training, you must preprocess the raw single-cell data. Use:
 
 ```bash
-python preprocess.py --expr /path/to/raw_data.csv --labels /path/to/cell_label.csv --hvg 2500 --out /path/to/processed/dir
+python preprocess.py --expr /path/to/raw_data.csv --labels /path/to/cell_label.csv
 ```
 
 The script will read the raw expression matrix, perform filtering and normalization, and save the resulting AnnData object for downstream use.
