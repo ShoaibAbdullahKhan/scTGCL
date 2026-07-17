@@ -33,49 +33,10 @@ def parse_args():
 
     # Dataset
     parser.add_argument('--dataset', type=str, help='Dataset name to use for training')
-    parser.add_argument("--n_clusters", type=int, help='Number of classes in the dataset')
-    
-    # Model architecture
-    parser.add_argument('--embed_dim', type=int, default=defaults['embed_dim'],
-                        help='Embedding dimension for transformer')
-    parser.add_argument('--num_heads', type=int, default=defaults['num_heads'],
-                        help='Number of attention heads')
-    parser.add_argument('--latent_dim', type=int, default=defaults['latent_dim'],
-                        help='Latent space dimension')
-    parser.add_argument('--dropout', type=float, default=defaults['dropout'],
-                        help='Dropout rate')
-
-    # Data augmentation
-    parser.add_argument('--mask_prob', type=float, default=defaults['mask_prob'],
-                        help='Gene masking probability for augmentation')
-    parser.add_argument('--attention_mask_prob', type=float, default=defaults['attention_mask_prob'],
-                        help='Attention masking probability')
-
-    # Loss weights
-    parser.add_argument('--lambda_recon', type=float, default=defaults['lambda_recon'],
-                        help='Weight for reconstruction loss')
-    parser.add_argument('--lambda_impute', type=float, default=defaults['lambda_impute'],
-                        help='Weight for imputation loss')
-    parser.add_argument('--lambda_contrast', type=float, default=defaults['lambda_contrast'],
-                        help='Weight for contrastive loss')
-    parser.add_argument('--temperature', type=float, default=defaults['temperature'],
-                        help='Temperature for contrastive loss')
 
     # Training
-    parser.add_argument('--lr', type=float, default=defaults['lr'],
-                        help='Learning rate')
-    parser.add_argument('--weight_decay', type=float, default=defaults['weight_decay'],
-                        help='Weight decay (L2 regularization)')
-    parser.add_argument('--epochs', type=int, default=defaults['epochs'],
-                        help='Number of training epochs')
     parser.add_argument('--batch_size', type=int, default=defaults['batch_size'],
                         help='Batch size for training')
-    parser.add_argument('--seed', type=int, default=defaults['seed'],
-                        help='Random seed (default is randomly chosen at startup)')
-
-    # Paths
-    parser.add_argument('--save_dir', type=str, default=defaults['save_dir'],
-                        help='Directory to save results and visualizations')
 
     return parser.parse_args()
 
@@ -207,9 +168,10 @@ def main():
 
     args = parse_args()
 
-    # Build config from parsed args (all defaults already come from get_config())
-    config = vars(args).copy()
-    data_path = config.pop('dataset')
+    # Start from config defaults, then override with parsed args
+    config = get_config()
+    config['batch_size'] = args.batch_size
+    data_path = args.dataset
 
     print(f"\n{'#'*70}")
     print(f"Running scTGCL on '{data_path}' dataset")
@@ -237,6 +199,7 @@ def main():
     # Encode labels
     label_encoder = LabelEncoder()
     y_all = label_encoder.fit_transform(pd.DataFrame(y_all).values.ravel())
+    config['n_clusters'] = len(label_encoder.classes_)
     
     # Split data
     X_train, X_test, y_train, y_test = train_test_split(

@@ -87,6 +87,7 @@ class EnhancedMultiHeadAttention(nn.Module):
         
         # Output projection
         self.W_o = nn.Linear(embed_dim, embed_dim)
+        self.W_i = nn.Linear(embed_dim, embed_dim)
         
         self.scale = np.sqrt(self.head_dim)
         
@@ -128,7 +129,7 @@ class EnhancedMultiHeadAttention(nn.Module):
         attention_output = attention_output.view(batch_size, self.embed_dim)
         
         # Final linear projection
-        output = self.W_o(attention_output)
+        output = self.W_o(attention_output) + self.W_i(x)
         
         # Store Q, K, V for analysis
         qkv_matrices = {
@@ -185,7 +186,7 @@ class scTGCL(nn.Module):
         
         # Decoder
         self.decoder = nn.Sequential(
-            nn.Linear(latent_dim, embed_dim),
+            nn.Linear(embed_dim // 2, embed_dim),
             nn.Linear(embed_dim, 2048),  
             nn.Linear(2048, input_dim)
         )
@@ -207,7 +208,7 @@ class scTGCL(nn.Module):
         )
         
         # Residual + LayerNorm
-        x1 = self.ln1(embedded + attn_output)
+        x1 = self.ln1(attn_output)
         
         # Latent representation
         latent = self.encoder_output(x1)
@@ -216,7 +217,7 @@ class scTGCL(nn.Module):
         z_orig = self.projection_head(latent)
         
         # Reconstruction
-        reconstructed = self.decoder(latent)
+        reconstructed = self.decoder(z_orig)
         
         outputs = {
             'reconstructed': reconstructed,
@@ -236,10 +237,10 @@ class scTGCL(nn.Module):
                 attention_mask_prob=self.attention_mask_prob
             )
             
-            x1_aug = self.ln1(embedded_aug + attn_output_aug)
+            x1_aug = self.ln1(attn_output_aug)
             latent_aug = self.encoder_output(x1_aug)
             z_aug = self.projection_head(latent_aug)
-            reconstructed_aug = self.decoder(latent_aug)
+            reconstructed_aug = self.decoder(z_aug)
             
             outputs.update({
                 'reconstructed_aug': reconstructed_aug,

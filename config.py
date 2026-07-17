@@ -26,8 +26,8 @@ def get_config():
         # Training
         'lr': 0.001,
         'weight_decay': 1e-3,
-        'epochs': 100,
-        'batch_size': 128,
+        'epochs': 200,
+        'batch_size': 512,
         'seed': 42,
         'save_dir': 'results',
     }
