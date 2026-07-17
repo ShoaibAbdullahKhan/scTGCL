@@ -27,7 +27,7 @@ The project relies on the following Python packages (minimum tested versions):
 
 All of the processed datasets used for training and evaluation can be found at the following link:
 
-[Processed datasets](https://zenodo.org/records/18864573)
+https://zenodo.org/records/18864573
 
 ---
 
