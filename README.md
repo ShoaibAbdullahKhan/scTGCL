@@ -1,6 +1,6 @@
 # scTGCL
 A Transformer-Based Graph Contrastive Learning Approach for Efficiently Clustering Single-Cell RNA-seq Data
-![Architecture](scTGCL.png)
+![Architecture](scTGCL.jpg)
 
 
 
